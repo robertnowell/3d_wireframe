@@ -38,11 +38,12 @@ Mesh and points are created here, making calls to functions in create.c. SIZE is
 Once t_view is initialized, the main function makes a call to draw_points(), which exists in draw.c, and finally the main function calls keyboard_event_function via mlx_hook. mlx_hook was a provided function for this project, as was mlx_loop.   
 <img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/keyboard_event.png" 
 alt="keyboard_event" width="350" height="450" border="10"/>  
-In keyboard_event() a switch adds or subtracts pi/96 (an arbitrary quantity of radians) from the x, y, or z angle (or exits, or resets the window), clears the screen, and makes a call to create_image():  
+In keyboard_event() a switch adds or subtracts pi/96 (an arbitrary quantity of radians) from the x, y, or z angle (or exits (case 53), or resets the window (case 15), then clears the screen. Each case is a key on the keyboard. The particular mapping is explained in installation and usage, below. Next, keyboard_event() makes a call to create_image():  
 <img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/create_image.png" 
 alt="keyboard_event" width="400" height="200" border="10"/>  
+create image makes a copy of the mesh, changes each constituent vector of this mesh copy based on the user-input rotation angles of the wireframe on the x, y, and z axes, and then a new "points" array is created (a two-d perspective projection representation of the three-d mesh), this points array is drawn on the screen, and then the program waits for user input for more rotation, an image reset, or an escape command.  
 
-## Installation
+## Installation and Usage
 
 Provide code examples and explanations of how to get the project.
 
