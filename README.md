@@ -12,8 +12,8 @@ This program does the following:
 <img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/42.png" 
 alt="fdf" width="300" height="140" border="10"/>
 
-2. Creates the "mesh" (a two dimensional array), each element of which is a three dimensional vector. Each vector represents a point in three dimensional space.  
-3. Creates "points" (also a two dimensional array). Each element of the points array is a two dimensional vector, which is a perspective projection of a corresponding three dimensional vector from the mesh. This is where three dimensional space is projected into two dimensional space.  
+2. Creates the "mesh" (a two dimensional array), each element of which is a three dimensional vector. Each vector represents a point in three dimensional space.
+3. Creates the "points" (also a two dimensional array). Each element of the points array is a two dimensional vector, which is a perspective projection of a corresponding three dimensional vector from the mesh. This is where three dimensional space is projected into two dimensional space.  
 4. Draws each element of the initial (i.e. prior to any rotation) points array on the screen, and also draws horizontal and vertical lines between the points.  
 5. Makes a call to keyboard_event_function(), which allows the user to rotate the wireframe.  
 6. In response to each user input, the program copies the "mesh" and alters each vector based on the x, y, and z rotation angles input by the user and then projects these points into the "points" array.
@@ -23,19 +23,22 @@ The program operates in an infinite loop until an escape key (ESC) is received.
 
 ### Details and Code
 
-<img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/main.png" 
-alt="fdf" width="400" height="400" border="10"/>
+<img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/main2.png" 
+alt="main" width="400" height="400" border="10"/>
 
 In lines 91-111 of the main function error checks the file and file descriptor and counts the file's rows and columns, using lseek() to reset the file offset.  
   
-Next initialize_view() is called to initialize the struct t_view which is relied upon in this program. t_view looks like this:  
+Next initialize_view() is called to initialize the struct t_view which is relied upon in this program. t_view is defined in includes/wireframe.h and looks like this:  
 <img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/t_view.png" 
-alt="fdf" width="300" height="300" border="10"/>
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+alt="t_view" width="300" height="300" border="10"/>
+mlx and win are variables which allow for the presentation of visual output to the user. Mesh and points are created here, making calls to functions in create.c. Proportionality is the degree of perspective projection applied (its default value is somewhat arbitrary). x_angle, y_angle, and z_angle store the value of the rotation (in radians) for each axis and are initialized to zero in initialize_view() in main.c:
+<img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/initialize_view.png" 
+alt="initialize_view" width="550" height="300" border="10"/>
+SIZE is the size of the window created and is a macro defined in wireframe.h which can be changed in wireframe.h. It is set to 1000 by default.  
+Once t_view is initialized, the main function makes a call to draw_points(), which exists in draw.c, and finally the main function calls keyboard_event_function via mlx_hook. mlx_hook was a provided function for this project, as was mlx_loop. 
+<img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/keyboard_event_function.png" 
+alt="keyboard_event_function" width="300" height="450" border="10"/>
 
-## Motivation
-
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
 
 ## Installation
 
