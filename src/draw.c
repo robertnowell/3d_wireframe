@@ -1,6 +1,6 @@
 #include "wireframe.h"
 
-//puts pixels from 2d array of vectors points to output display
+//draws pixels from 2d array of vectors points to output display
 void draw_points(t_view v)
 {
 	int row;
@@ -17,7 +17,7 @@ void draw_points(t_view v)
 
 
 
-//draw edges draws horizontal and vertical lines between adjacent points
+//draws edges draws horizontal and vertical lines between adjacent points
 void draw_edges(t_view v)
 {
 	int row;
@@ -49,7 +49,7 @@ int ft_abs(int a)
 
 
 
-//Bresenham's line algorithm implementation
+//implements Bresenham's line algorithm
 void draw_line_bresenham(t_vec2 vec1, t_vec2 vec2, t_view v)
 {
 	float x1, x2, y1, y2;

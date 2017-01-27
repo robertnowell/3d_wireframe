@@ -23,28 +23,28 @@ void create_image(t_view v)
 
 
 
-//handles keyboard input from user
+//handles keyboard input from user, control keys: 13:w, 1:s, 0:a, 2:d, 14:e, 12: q 
 int keyboard_event_function(int keycode, t_view *v)
 {
 	float angle = M_PI/96;
-
+	printf("key event:%d\n", keycode);
 	switch(keycode) {
-		case (87) :
+		case (13) :
 			v->x_angle += angle;
 			break;
-		case (84) :
+		case (1) :
 			v->x_angle -= angle;
 			break;
-		case (83) :
+		case (0) :
 			v->y_angle += angle;
 			break;
-		case (85) :
+		case (2) :
 			v->y_angle -= angle;
 			break;
-		case (88) :
+		case (14) :
 			v->z_angle += angle;
 			break;
-		case (86) :
+		case (12) :
 			v->z_angle -= angle;
 			break;
 		case (53) :

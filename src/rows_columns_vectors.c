@@ -62,7 +62,7 @@ int count_rows(int fd)
 int count_columns(int fd)
 {
 	int ret;
-	char buf;
+	char buf = 0;
 	char line[1000];
 	int count = 0;
 	int i;
