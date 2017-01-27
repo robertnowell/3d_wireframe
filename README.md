@@ -2,7 +2,7 @@
 
 This is a 3d wireframe renderer that allows for rotation in 3d space. Perspective projection is used to add realism. The provided tools for this project were a function to put a pixel on a screen and a key hook function for user input.  
   
-![alt text](https://github.com/robertnowell/3d_wireframe/blob/master/imgs/giphy.gif "42fdf")
+![alt text](https://github.com/robertnowell/3d_wireframe/blob/master/images/giphy.gif "42fdf")
 
 ## Implementation
 
