@@ -41,12 +41,26 @@ alt="keyboard_event" width="350" height="450" border="10"/>
 In keyboard_event() a switch adds or subtracts pi/96 (an arbitrary quantity of radians) from the x, y, or z angle (or exits (case 53), or resets the window (case 15), then clears the screen. Each case is a key on the keyboard. The particular mapping is explained in installation and usage, below. Next, keyboard_event() makes a call to create_image():  
 <img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/create_image.png" 
 alt="keyboard_event" width="400" height="200" border="10"/>  
-create image makes a copy of the mesh, changes each constituent vector of this mesh copy based on the user-input rotation angles of the wireframe on the x, y, and z axes, and then a new "points" array is created (a two-d perspective projection representation of the three-d mesh), this points array is drawn on the screen, and then the program waits for user input for more rotation, an image reset, or an escape command.  
+create image makes a copy of the mesh, changes each constituent vector of this mesh copy based on the user-input rotation angles of the wireframe on the x, y, and z axes. These rotation functions are in rotate.c. This is the x axis rotation function:  
+<img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/rot_x.png" 
+alt="keyboard_event" width="400" height="200" border="10"/>  
+X, Y, and Z are macros for accessing elements from the mesh, and these macros are defined in wireframe.h.  
+After rotating the mesh copy, a new "points" array is created (a two-d perspective projection representation of the three-d mesh), this points array is drawn on the screen, and then the program waits for user input for more rotation, an image reset, or an escape command.  
 
 ## Installation and Usage
 
-Provide code examples and explanations of how to get the project.
-
+First clone the repo and then generate the executable:
+```
+git clone https://github.com/robertnowell/3d_wireframe.git
+cd 3d_wireframe
+make re
+```
+A successful make will output a message that confirms that an executable called 'wireframe' has been created. In test_maps, there are a number of files that can be used to display the functionality of this program. Type a command like the following from the root of the cloned repository to start the program:
+```
+./wireframe test_maps/mars.fdf
+```
+A window should appear with a wireframe, in this case the map is a topographical representation of a section of the planet mars. The image can be rotated from the window with the q, w, e, a, s, d keys. Q and E rotate along the z axis, W and S rotate along the x axis, and A and D rotate along the y axis. The r key will reset the image, and the escape (ESC) key will terminate the execution of the program. A variety of color macros can be found in wireframe.h. To change the color of the wireframe drawing, change the COLOR macro, save the file, "make re" from the root directory, and run the program again.  
+  
 ## Author
 
 Robert Nowell
