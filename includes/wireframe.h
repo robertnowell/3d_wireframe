@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <fcntl.h>
-// #include "lib3d.h"
 #include "libft.h"
 #include "mlx.h"
 
@@ -25,6 +24,7 @@
 #define DARK_BLUE 0x000000088
 #define COLOR INDIGO
 
+#define SIZE 1600
 #define Y mesh[row][col].y
 #define X mesh[row][col].x
 #define Z mesh[row][col].z

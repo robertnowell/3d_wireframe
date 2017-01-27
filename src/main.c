@@ -70,7 +70,7 @@ t_view initialize_view(int rowcount, int columncount, char *line, int fd)
 
 	view.rowcount = rowcount;
 	view.columncount = columncount;
-	view.size = 1600;
+	view.size = SIZE;
 	view.mesh = create_mesh(rowcount, columncount, line, fd, view.size);
 	view.mlx = mlx_init();
 	view.distance = 100;
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
+	if (fd < 1)
 	{
 		ft_putstr("file error\n");
 		return (-1);
