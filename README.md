@@ -12,11 +12,11 @@ This program does the following:
 <img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/42.png" 
 alt="fdf" width="300" height="140" border="10"/>
 
-2. Creates the "mesh" (a two dimensional array), each element of which is a three dimensional vector. Each vector represents a point in three dimensional space.
-3. Creates the "points" (also a two dimensional array). Each element of the points array is a two dimensional vector, which is a perspective projection of a corresponding three dimensional vector from the mesh. This is where three dimensional space is projected into two dimensional space.  
+2. Creates the "mesh" (a two dimensional array) to represent the contents of the file. Each element of this mesh is a three dimensional vector. Each vector represents a point in three dimensional space.
+3. Creates the "points" (also a two dimensional array). Each element of the points array is a two dimensional vector, which is a perspective projection of the corresponding three dimensional vector from the mesh. This is where three dimensional space is projected into two dimensional space.  
 4. Draws each element of the initial (i.e. prior to any rotation) points array on the screen, and also draws horizontal and vertical lines between the points.  
-5. Makes a call to keyboard_event_function(), which allows the user to rotate the wireframe.  
-6. In response to each user input, the program copies the "mesh" and alters each vector based on the x, y, and z rotation angles input by the user and then projects these points into the "points" array.
+5. Handles user input by listening for key hooks (via keyboard_event()) that signal requests for the wireframe to rotate on a particular access.
+6. In response to each user input, copies the "mesh" and alters each vector based on the x, y, and z rotation angles input by the user and then projects these points into a new "points" array.
 7. Outputs the image to the screen and then calls to the keyboard event function again.
 
 The program operates in an infinite loop until an escape key (ESC) is received.  
