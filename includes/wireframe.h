@@ -24,7 +24,7 @@
 #define DARK_BLUE 0x000000088
 #define COLOR INDIGO
 
-#define SIZE 1600
+#define SIZE 1000
 #define Y mesh[row][col].y
 #define X mesh[row][col].x
 #define Z mesh[row][col].z
@@ -79,7 +79,7 @@ t_vec2 **ft_create_points(t_view v, t_vec3 **mesh);
 t_vec3 **create_mesh_copy(t_vec3 **mesh, t_view v);
 t_vec3 **create_mesh(int rowcount, int columncount, char *line, int fd, int size);
 void create_image(t_view v);
-int keyboard_event_function(int keycode, t_view *v);
+int keyboard_event(int keycode, t_view *v);
 t_view initialize_view(int rowcount, int columncount, char *line, int fd);
 
 #endif
