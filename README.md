@@ -59,7 +59,7 @@ A successful make will output a message that confirms that an executable called 
 ```
 ./wireframe test_maps/mars.fdf
 ```
-A window should appear with a wireframe, in this case the map is a topographical representation of a section of the planet mars. The image can be rotated from the window with the q, w, e, a, s, d keys. Q and E rotate along the z axis, W and S rotate along the x axis, and A and D rotate along the y axis. The r key will reset the image, and the escape (ESC) key will terminate the execution of the program. A variety of color macros can be found in wireframe.h. To change the color of the wireframe drawing, change the COLOR macro, save the file, "make re" from the root directory, and run the program again.  
+A window should appear with a wireframe, in this case the map is a topographical representation of a section of the planet mars. The image can be rotated from the window with the Q, W, E, A, S, and D keys. Q and E rotate along the z axis, W and S rotate along the x axis, and A and D rotate along the y axis. The R key will reset the image, and the escape (ESC) key will terminate the execution of the program. A variety of color macros can be found in wireframe.h. To change the color of the wireframe drawing, change the COLOR macro, save the file, "make re" from the root directory, and run the program again.  
   
 ## Author
 
