@@ -101,49 +101,34 @@ void rot_z(t_vec3 **mesh, t_view v, float angle)
 //draw edges draws horizontal and vertical lines between adjacent points
 void draw_edges(t_view v)
 {
-	int i;
-	int j;
+	int row;
+	int col;
 	t_vec2 **points;
 
 	points = v.points;
-	i = 0;
-	while (i < v.rowcount-2)
+	for (row = 0; row < v.rowcount-2; row++)
 	{
-		j = 0;
-		while (j < v.columncount - 1)
+		for (col = 0; col < v.columncount - 1; col++)
 		{
-			draw_line_bes(points[i][j], points[i][j+1], v);
-			draw_line_bes(points[i][j], points[i+1][j], v);
-			j++;
+			draw_line_bes(points[row][col], points[row][col+1], v);
+			draw_line_bes(points[row][col], points[row+1][col], v);
 		}
-		draw_line_bes(points[i][j], points[i+1][j], v);
-		i++;
+		draw_line_bes(points[row][col], points[row+1][col], v);
 	}
-	j = 0; 
-	while (j < v.columncount - 1)
-	{
-		draw_line_bes(points[i][j], points[i][j+1], v);
-		j++;
-	}	
+	for (col = 0; col < v.columncount - 1; col++)
+		draw_line_bes(points[row][col], points[row][col+1], v);
 }
 
-//puts pixels from 2d points to output display
+//puts pixels from 2d array of vectors points to output display
 void put_points(t_view v)
 {
-	int i;
-	int j;
+	int row;
+	int col;
 
-	i = 0;
-	while (i < v.rowcount - 1)
+	for (row = 0; row < v.rowcount - 1; row++)
 	{
-		j = 0;
-		while (j <= v.columncount - 1)
-		{
-			mlx_pixel_put(v.mlx, v.win, \
-				v.points[i][j].x, v.points[i][j].y, WHITE);
-			j++;
-		}
-		i++;
+		for (col = 0; col <= v.columncount - 1; col++)
+			mlx_pixel_put(v.mlx, v.win, v.points[row][col].x, v.points[row][col].y, WHITE);
 	}
 	draw_edges(v);
 }
@@ -152,28 +137,17 @@ void put_points(t_view v)
 t_vec2 **ft_create_points(t_view v, t_vec3 **mesh)
 {
 	t_vec2 **points;
-	int i;
-	int j;
+	int row;
+	int col;
 
 	points = (t_vec2**)malloc(sizeof(t_vec2 *) * v.rowcount);
-	i = 0;
-	while (i < v.rowcount)
+	row = 0;
+	for (row = 0; row < v.rowcount; row++)
+		points[row] = (t_vec2 *)malloc(sizeof(t_vec2) * v.columncount);
+	for (row = 0; row < v.rowcount - 1; row++)
 	{
-		points[i] = (t_vec2 *)malloc(sizeof(t_vec2) * v.columncount);
-		i++;
-	}
-	i = 0;
-	while (i < v.rowcount - 1)
-	{
-		j = 0;
-		while (j <= v.columncount - 1)
-		{
-			points[i][j] = vec2(mesh[i][j].x + v.size/2 + \
-		v.proportionality*mesh[i][j].x*mesh[i][j].z, \
-		mesh[i][j].y + v.size/2 + v.proportionality*mesh[i][j].y*mesh[i][j].z);
-			j++;
-		}
-		i++;
+		for (col = 0; col <= v.columncount - 1; col++)
+			points[row][col] = vec2(X + v.size/2 + v.proportionality*X*Z, Y + v.size/2 + v.proportionality*Y*Z);
 	}
 	return points;
 }
@@ -194,12 +168,10 @@ int count_rows(int fd)
 	}
 	while ((ret = read(fd, buf, 1)))
 	{
-		i = 0;
-		while (buf[i])
+		for (i = 0; buf[i]; i++)
 		{
 			if (buf[i] == '\n')
 				count++;
-			i++;
 		}
 	}
 	return (count);
@@ -208,14 +180,12 @@ int count_rows(int fd)
 //counts number of columns in the input file
 int count_columns(int fd)
 {
-	int i;
-	int count;
-	char line[1000];
-	char buf;
 	int ret;
+	char buf;
+	char line[1000];
+	int count = 0;
+	int i;
 
-	count = 0;
-	i = 0;
 	if (!fd)
 		return 0;
 	while ((ret = read(fd, &buf, 1)))
@@ -225,26 +195,12 @@ int count_columns(int fd)
 		line[i] = buf;
 		i++;
 	}
-	i = 0;
-	while (line[i])
+	for (i = 0; line[i]; i++)
 	{
 		if (line[i] > ' ' && line[i - 1] <= ' ')
 			count++;		
-		i++;
 	}
 	return (count);
-}
-
-//prints 3d vector to stdout
-void print_vec3(t_vec3 v)
-{
-	ft_putstr("( ");
-	ft_putnbr(v.x);
-	ft_putstr(", ");
-	ft_putnbr(v.y);
-	ft_putstr(", ");
-	ft_putnbr(v.z);
-	ft_putstr(" )");
 }
 
 //copies 2d array of 3d vectors called mesh
