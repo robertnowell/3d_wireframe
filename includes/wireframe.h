@@ -23,10 +23,7 @@
 #define BURNT_ORANGE 
 #define BLUE 0x001010AA
 #define DARK_BLUE 0x000000088
-
-#define COLOR DARK_BLUE
-
-
+#define COLOR INDIGO
 
 #define Y mesh[row][col].y
 #define X mesh[row][col].x
