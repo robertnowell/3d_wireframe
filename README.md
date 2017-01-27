@@ -2,10 +2,15 @@
 
 This is a 3d wireframe renderer that allows for rotation in 3d space. Perspective projection is used to add realism. The provided tools for this project were a function to put a pixel on a screen and a key hook function for user input.  
   
-![alt text](https://github.com/robertnowell/3d_wireframe/blob/master/giphy.gif "42fdf")
+![alt text](https://github.com/robertnowell/3d_wireframe/blob/master/imgs/giphy.gif "42fdf")
 
-## Code Example
+## Implementation
 
+This program does the following:  
+
+1. Read input from a particularly formatted file, like the following:  
+![alt_text](https://github.com/robertnowell/3d_wireframe/blob/master/images/42.png ".fdf")
+2. s
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
 
 ## Motivation
