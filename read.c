@@ -152,57 +152,6 @@ t_vec2 **ft_create_points(t_view v, t_vec3 **mesh)
 	return points;
 }
 
-//counts number of rows (lines) in the input file
-int count_rows(int fd)
-{
-	int ret;
-	char *buf;
-	int count = 0;
-	int i;
-
-	if ((ret = read(fd, buf, 1) > 0))
-	{
-		count++;
-		if (*buf == '\n')
-			count++;
-	}
-	while ((ret = read(fd, buf, 1)))
-	{
-		for (i = 0; buf[i]; i++)
-		{
-			if (buf[i] == '\n')
-				count++;
-		}
-	}
-	return (count);
-}
-
-//counts number of columns in the input file
-int count_columns(int fd)
-{
-	int ret;
-	char buf;
-	char line[1000];
-	int count = 0;
-	int i;
-
-	if (!fd)
-		return 0;
-	while ((ret = read(fd, &buf, 1)))
-	{
-		if (buf == '\n')
-			break;
-		line[i] = buf;
-		i++;
-	}
-	for (i = 0; line[i]; i++)
-	{
-		if (line[i] > ' ' && line[i - 1] <= ' ')
-			count++;		
-	}
-	return (count);
-}
-
 //copies 2d array of 3d vectors called mesh
 t_vec3 **copy_mesh(t_vec3 **mesh, t_view v)
 {
@@ -314,6 +263,58 @@ t_view initialize_view(int rowcount, int columncount, char *line, int fd)
 	return view;
 }
 
+
+//counts number of rows (lines) in the input file
+int count_rows(int fd)
+{
+	int ret;
+	char *buf;
+	int count = 0;
+	int i;
+
+	if ((ret = read(fd, buf, 1) > 0))
+	{
+		count++;
+		if (*buf == '\n')
+			count++;
+	}
+	while ((ret = read(fd, buf, 1)))
+	{
+		for (i = 0; buf[i]; i++)
+		{
+			if (buf[i] == '\n')
+				count++;
+		}
+	}
+	return (count);
+}
+
+//counts number of columns in the input file
+int count_columns(int fd)
+{
+	int ret;
+	char buf;
+	char line[1000];
+	int count = 0;
+	int i;
+
+	if (!fd)
+		return 0;
+	while ((ret = read(fd, &buf, 1)))
+	{
+		if (buf == '\n')
+			break;
+		line[i] = buf;
+		i++;
+	}
+	for (i = 0; line[i]; i++)
+	{
+		if (line[i] > ' ' && line[i - 1] <= ' ')
+			count++;		
+	}
+	return (count);
+}
+
 int main(int argc, char **argv)
 {
 	int fd;
@@ -332,12 +333,14 @@ int main(int argc, char **argv)
 		ft_putstr("file error\n");
 		return (-1);
 	}
+
 	rowcount = count_rows(fd);
-	close(fd);
-	fd = open(argv[1], O_RDONLY);
+	// close(fd);
+	lseek(fd, 0, SEEK_SET);
+	// fd = open(argv[1], O_RDONLY);
 	columncount = count_columns(fd);
-	close(fd);
-	fd = open(argv[1], O_RDONLY);
+	lseek(fd, 0, SEEK_SET);
+	// fd = open(argv[1], O_RDONLY);
 
 	t_view view = initialize_view(rowcount, columncount, line, fd);
 	put_points(view);
