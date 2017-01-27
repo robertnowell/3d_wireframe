@@ -24,7 +24,7 @@
 #define BLUE 0x001010AA
 #define DARK_BLUE 0x000000088
 
-#define COLOR PALE_GOLDEN_ROD
+#define COLOR INDIGO
 
 
 #define SIZE 1000
