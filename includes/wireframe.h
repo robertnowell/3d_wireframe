@@ -19,16 +19,25 @@
 #define DARK_GREEN 0x00008400
 #define LILAC 0x00B2B2FF
 #define INDIGO 0x004C4CFF
-#define BURNT_ORANGE 
+#define BURNT_ORANGE 0x0CC6600
+#define PALE_GOLDEN_ROD 0x00EEE8AA
 #define BLUE 0x001010AA
 #define DARK_BLUE 0x000000088
-#define COLOR INDIGO
+
+#define COLOR PALE_GOLDEN_ROD
+
 
 #define SIZE 1000
+
 #define Y mesh[row][col].y
 #define X mesh[row][col].x
 #define Z mesh[row][col].z
+
 #define sign(x) ((x > 0) ? 1 : ((x < 0) ? -1 : 0))
+
+
+
+
 
 typedef struct
 {
@@ -61,6 +70,7 @@ typedef struct	s_view
 	float y_angle;
 	float z_angle;
 }				t_view;
+
 
 
 

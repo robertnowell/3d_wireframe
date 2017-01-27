@@ -1,6 +1,4 @@
 #include "wireframe.h"
-//essentially, we create the mesh from the file, and then create and display points (and appropriate edges between them) from the mesh
-//when we rotate, we create a copy of the mesh, rotate it, and then create and display points from the copy (original mesh remains constant)
 
 /*
 **copies original mesh (**array representation of input file), 
@@ -24,7 +22,7 @@ void create_image(t_view v)
 
 
 //handles keyboard input from user, control keys: 13:w, 1:s, 0:a, 2:d, 14:e, 12: q 
-int keyboard_event_function(int keycode, t_view *v)
+int keyboard_event(int keycode, t_view *v)
 {
 	float angle = M_PI/96;
 	printf("key event:%d\n", keycode);
@@ -56,7 +54,7 @@ int keyboard_event_function(int keycode, t_view *v)
 	}
 	mlx_clear_window(v->mlx, v->win);
 	create_image(*v);
-	mlx_key_hook(v->win, keyboard_event_function, v);
+	mlx_key_hook(v->win, keyboard_event, v);
 	return (0);
 }
 
@@ -112,6 +110,6 @@ int main(int argc, char **argv)
 
 	t_view view = initialize_view(rowcount, columncount, line, fd);
 	draw_points(view);
-	mlx_hook(view.win, 2, 0, keyboard_event_function, &view);
+	mlx_hook(view.win, 2, 0, keyboard_event, &view);
 	mlx_loop(view.mlx);
 }
