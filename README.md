@@ -8,7 +8,7 @@ This is a 3d wireframe renderer that allows for rotation in 3d space. Perspectiv
 
 This program does the following:  
 
-1. Reads input from a file formatted like the following:  
+1. Reads input from a file formatted like this:  
 <img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/42.png" 
 alt="fdf" width="300" height="140" border="10"/>
 
