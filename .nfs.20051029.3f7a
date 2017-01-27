@@ -1,105 +1,116 @@
+#include "./includes/mlx.h"
 #include <stdio.h>
 #include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <fcntl.h>
 #include "./includes/libft.h"
 #include "./includes/lib3d.h"
-#include "./includes/mlx.h"
-
 #define WHITE 0x00FFFFFF
-#define Y mesh[row][col].y
-#define X mesh[row][col].x
-#define Z mesh[row][col].z
+#include <sys/types.h>
 
-//essentially, we create the mesh from the file, and then create and display points (and appropriate edges between them) from the mesh
-//when we rotate, we create a copy of the mesh, rotate it, and then create and display points from the copy (original mesh remains constant)
+#include <fcntl.h>
 
-//i and j variables
-//better name for mesh?
-//
+// typedef struct	s_view
+// {
+// 	void *mlx;
+// 	void *win;
+// 	int rowcount;
+// 	int columncount;
+// 	int		distance;
+// 	int size;
+// 	float proportionality;
+// 	t_vec3 **mesh;
+// 	t_vec2 **points;
+// 	float x_angle;
+// 	float y_angle;
+// 	float z_angle;
+// }				t_view;
 
-//rot_x alters y and z value of each vector in the mesh based on specified rotation angle (mesh values accessed through X, Y, and Z macros for readability)
-void rot_x(t_vec3 **mesh, t_view v, float angle)
+void rot_x(t_vec3 ***mesh, t_view v, float angle)
 {
+	int i;
+	int j;
 	float y_prime;
 	float z_prime;
-	int row;
-	int col;
 
-	for (row = 0; row < v.rowcount - 1; row++)
+	j = 0;
+	i = 0;
+
+	while (i < v.rowcount - 1)
 	{
-		for (col = 0; col <= v.columncount - 1; col++)
+		j = 0;
+		while (j <= v.columncount - 1)
 		{
-			y_prime = Y * cos(angle) - Z * sin(angle);
-			z_prime = Z * cos(angle) + Y * sin(angle);
-			Y = y_prime;
-			Z = z_prime;
+			y_prime = (*mesh)[i][j].y * cos(angle) \
+			- (*mesh)[i][j].z * sin(angle);
+			z_prime = (*mesh)[i][j].z * cos(angle) \
+			+ (*mesh)[i][j].y * sin(angle);
+			(*mesh)[i][j].y = y_prime;
+			(*mesh)[i][j].z = z_prime;
+			j++;
 		}
+		i++;
 	}
 }
 
-//rot_y alters x and z value of each vector in the mesh based on specified rotation angle (mesh values accessed through X, Y, and Z macros for readability)
-void rot_y(t_vec3 **mesh, t_view v, float angle)
+void rot_y(t_vec3 ***mesh, t_view v, float angle)
 {
+	int i;
+	int j;
 	float x_prime;
 	float z_prime;
-	int row;
-	int col;
 
-	for (row = 0; row < v.rowcount - 1; row++)
+	i = 0;
+	j = 0;
+
+	while (i < v.rowcount - 1)
 	{
-		for (col = 0; col <= v.columncount - 1; col++)
+		j = 0;
+		while (j <= v.columncount - 1)
 		{
-			x_prime = X * cos(angle) - Z * sin(angle);
-			z_prime = Z * cos(angle) + X * sin(angle);
-			Z = z_prime;
-			X = x_prime;
+			x_prime = (*mesh)[i][j].x * cos(angle) \
+			- (*mesh)[i][j].z * sin(angle);
+			z_prime = (*mesh)[i][j].z * cos(angle) \
+			+ (*mesh)[i][j].x * sin(angle);
+
+			(*mesh)[i][j].z = z_prime;
+			(*mesh)[i][j].x = x_prime;
+			j++;
+
 		}
+		i++;
 	}
 }
 
-//rot_z alters x and y value of each vector in the mesh based on specified rotation angle (mesh values accessed through X, Y, and Z macros for readability)
-void rot_z(t_vec3 **mesh, t_view v, float angle)
+void rot_z(t_vec3 ***mesh, t_view v, float angle)
 {
+	int i;
+	int j;
 	float x_prime;
 	float y_prime;
-	int row;
-	int col;
 
-	for (row = 0; row < v.rowcount - 1; row++)
+	i = 0;
+	j = 0;
+	
+	while (i < v.rowcount - 1)
 	{
-		for (col = 0; col <= v.columncount - 1; col++)
+		j = 0;
+		while (j <= v.columncount - 1)
 		{
-			x_prime = X * cos(angle) - Y * sin(angle);
-			y_prime = X * sin(angle) + Y * cos(angle);
-			X = x_prime;
-			Y = y_prime;
+			x_prime = (*mesh)[i][j].x * cos(angle) \
+			- (*mesh)[i][j].y * sin(angle);
+			y_prime = (*mesh)[i][j].x * sin(angle) \
+			+ (*mesh)[i][j].y * cos(angle);
+			(*mesh)[i][j].x = x_prime;
+			(*mesh)[i][j].y = y_prime;
+			j++;
+
 		}
+		i++;
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//draw edges draws horizontal and vertical lines between adjacent points
-void draw_edges(t_view v)
+void ft_draw_edges(t_view v)
 {
 	int i;
 	int j;
@@ -127,8 +138,7 @@ void draw_edges(t_view v)
 	}	
 }
 
-//puts pixels from 2d points to output display
-void put_points(t_view v)
+void ft_put_points(t_view v)
 {
 	int i;
 	int j;
@@ -140,15 +150,14 @@ void put_points(t_view v)
 		while (j <= v.columncount - 1)
 		{
 			mlx_pixel_put(v.mlx, v.win, \
-				v.points[i][j].x, v.points[i][j].y, WHITE);
+				v.points[i][j].x, v.points[i][j].y, 0x00FFFFFF);
 			j++;
 		}
 		i++;
 	}
-	draw_edges(v);
+	ft_draw_edges(v);
 }
 
-//creates 2d array of 2d vectors called points which holds the two-d representation of three-d mesh.
 t_vec2 **ft_create_points(t_view v, t_vec3 **mesh)
 {
 	t_vec2 **points;
@@ -178,8 +187,7 @@ t_vec2 **ft_create_points(t_view v, t_vec3 **mesh)
 	return points;
 }
 
-//counts number of rows (lines) in the input file
-int count_rows(int fd)
+int ft_linecount(int fd)
 {
 	int ret;
 	char *buf;
@@ -205,8 +213,7 @@ int count_rows(int fd)
 	return (count);
 }
 
-//counts number of columns in the input file
-int count_columns(int fd)
+int ft_columncount(int fd)
 {
 	int i;
 	int count;
@@ -235,7 +242,6 @@ int count_columns(int fd)
 	return (count);
 }
 
-//prints 3d vector to stdout
 void print_vec3(t_vec3 v)
 {
 	ft_putstr("( ");
@@ -247,8 +253,7 @@ void print_vec3(t_vec3 v)
 	ft_putstr(" )");
 }
 
-//copies 2d array of 3d vectors called mesh
-t_vec3 **copy_mesh(t_vec3 **mesh, t_view v)
+t_vec3 **ft_copy_mesh(t_vec3 **mesh, t_view v)
 {
 	int i = 0;
 	int j;
@@ -274,28 +279,25 @@ t_vec3 **copy_mesh(t_vec3 **mesh, t_view v)
 	return tmp_mesh;
 }
 
-//copies original mesh, alters the copy based on rotation key events, and then creates and outputs the image to the screen
-void create_image(t_view v)
+void ft_create_image(t_view v)
 {
 	t_vec3 **tmp_mesh;
-	tmp_mesh = copy_mesh(v.mesh, v);
+	tmp_mesh = ft_copy_mesh(v.mesh, v);
 
-	rot_x(tmp_mesh, v, v.x_angle);
-	rot_y(tmp_mesh, v, v.y_angle);
-	rot_z(tmp_mesh, v, v.z_angle);
+	rot_x(&tmp_mesh, v, v.x_angle);
+	rot_y(&tmp_mesh, v, v.y_angle);
+	rot_z(&tmp_mesh, v, v.z_angle);
 
 	v.points = ft_create_points(v, tmp_mesh);
-	put_points(v);
+	ft_put_points(v);
 }
 
-//this function handles keyboard input from user
-int keyboard_event_function(int keycode, t_view *v)
+int persp_key_function(int keycode, t_view *v)
 {
 	float angle = M_PI/96;
 
-	if (keycode == 87)
-		v->x_angle += angle;
-	else if (keycode == 84)
+	v->x_angle = keycode == 87 ? v->x_angle + angle : v->x_angle;
+	if (keycode == 84)
 		v->x_angle -= angle;
 	else if (keycode == 83)
 		v->y_angle += angle;
@@ -314,8 +316,8 @@ int keyboard_event_function(int keycode, t_view *v)
 		v->z_angle = 0;
 	}
 	mlx_clear_window(v->mlx, v->win);
-	create_image(*v);
-	mlx_key_hook(v->win, keyboard_event_function, v);
+	ft_create_image(*v);
+	mlx_key_hook(v->win, persp_key_function, v);
 	return (0);
 }
 
@@ -327,13 +329,15 @@ int main(int argc, char **argv)
 		return 0;
 	}
 	int fd;
+	// ft_putnbr(fd);
+	// ft_putendl("=fd");
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 	{
 		ft_putstr("file error\n");
 		return (-1);
 	}
-	int rowcount = count_rows(fd);
+	int rowcount = ft_linecount(fd);
 	close(fd);
 	fd = open(argv[1], O_RDONLY);
 
@@ -343,20 +347,19 @@ int main(int argc, char **argv)
 	int linei = 0;
 	int columncount;
 
-	columncount = count_columns(fd);
+	columncount = ft_columncount(fd);
 	printf("rowcount=%d\n", rowcount);
 	printf("columncount: %d\n", columncount);
 	close(fd);
 	fd = open(argv[1], O_RDONLY);
 	t_view view;
-
+	t_vec3 **mesh;
+	mesh = (t_vec3 **)malloc(sizeof(t_vec3*) * rowcount + 1);
 	view.rowcount = rowcount;
 	view.columncount = columncount;
 	view.size = 1600;
 	int mod = view.size/(columncount+rowcount);
 
-	t_vec3 **mesh;
-	mesh = (t_vec3 **)malloc(sizeof(t_vec3*) * rowcount + 1);
 	while ((i < rowcount - 1))
 	{
 		if (!line)
@@ -386,7 +389,8 @@ int main(int argc, char **argv)
 	view.z_angle = 0;
 	view.points = ft_create_points(view, view.mesh);
 
-	put_points(view);
-	mlx_hook(view.win, 2, 0, keyboard_event_function, &view);
+	ft_put_points(view);
+	mlx_hook(view.win, 2, 0, persp_key_function, &view);
+	// mlx_key_hook(view.win, persp_key_function, &view);
 	mlx_loop(view.mlx);
 }
