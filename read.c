@@ -206,26 +206,18 @@ int count_columns(int fd)
 //copies 2d array of 3d vectors called mesh
 t_vec3 **copy_mesh(t_vec3 **mesh, t_view v)
 {
-	int i = 0;
-	int j;
+	int row;
+	int col;
 	t_vec3 **tmp_mesh;
 
 	tmp_mesh = (t_vec3 **)malloc(sizeof(t_vec3*) * v.rowcount + 1);
-	while (i < v.rowcount)
+	for (row = 0; row < v.rowcount; row++)
+		tmp_mesh[row] = (t_vec3*)malloc(sizeof(t_vec3) * v.columncount + 1);
+	row = 0;
+	for (row = 0; row < v.rowcount - 1; row++)
 	{
-		tmp_mesh[i] = (t_vec3*)malloc(sizeof(t_vec3) * v.columncount + 1);
-		i++;
-	}
-	i = 0;
-	while ((i < v.rowcount - 1))
-	{
-		j = 0;
-		while (j < v.columncount)
-		{
-			tmp_mesh[i][j] = mesh[i][j];
-			j++;
-		}
-		i++;
+		for (col = 0; col < v.columncount; col++)
+			tmp_mesh[row][col] = mesh[row][col];
 	}
 	return tmp_mesh;
 }
@@ -275,64 +267,42 @@ int keyboard_event_function(int keycode, t_view *v)
 	return (0);
 }
 
-int main(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		printf("usage: ./filename test_map_file\n");
-		return 0;
-	}
-	int fd;
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	{
-		ft_putstr("file error\n");
-		return (-1);
-	}
-	int rowcount = count_rows(fd);
-	close(fd);
-	fd = open(argv[1], O_RDONLY);
-
-	char *line;
-	int i = 0;
-	int j = 0;
+t_vec3 **create_mesh(int rowcount, int columncount, char *line, int fd, int size)
+{	
+	int i;
+	int j;
 	int linei = 0;
-	int columncount;
-
-	columncount = count_columns(fd);
-	printf("rowcount=%d\n", rowcount);
-	printf("columncount: %d\n", columncount);
-	close(fd);
-	fd = open(argv[1], O_RDONLY);
-	t_view view;
-
-	view.rowcount = rowcount;
-	view.columncount = columncount;
-	view.size = 1600;
-	int mod = view.size/(columncount+rowcount);
+	int mod = size/(columncount+rowcount);
 
 	t_vec3 **mesh;
 	mesh = (t_vec3 **)malloc(sizeof(t_vec3*) * rowcount + 1);
-	while ((i < rowcount - 1))
+	for (i = 0;i < rowcount - 1; i++)
 	{
 		if (!line)
 			get_next_line(fd, &line);
 		linei = 0;
 		mesh[i] = (t_vec3*)malloc(sizeof(t_vec3) * columncount + 1);
-		j = 0;
-		while (j < columncount)
+		for (j = 0; j < columncount; j++)
 		{
-			mesh[i][j] = vec3(mod*(j-columncount/2), mod*(i-rowcount/2), mod/5*ft_atoi(&line[linei]));
-			j++;
+			mesh[i][j] = vec3(mod*(j-columncount/2), mod*(i-rowcount/2), (mod/2.5)*ft_atoi(&line[linei]));
 			while (line[linei] > ' ')
 				linei++;
 			while (line[linei] == ' ')
 				linei++;
 		}
-		i++;
 		line = NULL;
 	}
-	view.mesh = mesh;
+	return mesh;
+}
+
+t_view initialize_view(int rowcount, int columncount, char *line, int fd)
+{
+	t_view view;
+
+	view.rowcount = rowcount;
+	view.columncount = columncount;
+	view.size = 1600;
+	view.mesh = create_mesh(rowcount, columncount, line, fd, view.size);
 	view.mlx = mlx_init();
 	view.distance = 100;
 	view.win = mlx_new_window(view.mlx, view.size, view.size, "mlx 42");
@@ -341,7 +311,35 @@ int main(int argc, char **argv)
 	view.y_angle = 0;
 	view.z_angle = 0;
 	view.points = ft_create_points(view, view.mesh);
+	return view;
+}
 
+int main(int argc, char **argv)
+{
+	int fd;
+	int rowcount;
+	char *line;
+	int columncount;
+
+	if (argc != 2)
+	{
+		ft_putstr("usage: ./filename test_map_file\n");
+		return 0;
+	}
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+	{
+		ft_putstr("file error\n");
+		return (-1);
+	}
+	rowcount = count_rows(fd);
+	close(fd);
+	fd = open(argv[1], O_RDONLY);
+	columncount = count_columns(fd);
+	close(fd);
+	fd = open(argv[1], O_RDONLY);
+
+	t_view view = initialize_view(rowcount, columncount, line, fd);
 	put_points(view);
 	mlx_hook(view.win, 2, 0, keyboard_event_function, &view);
 	mlx_loop(view.mlx);
