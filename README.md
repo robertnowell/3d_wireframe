@@ -36,9 +36,11 @@ mlx and win are variables which allow for the presentation of visual output to t
 alt="initialize_view" width="550" height="300" border="10"/>  
 Mesh and points are created here, making calls to functions in create.c. SIZE is the size of the window created and is a macro defined in wireframe.h. It can be changed there and is set to 1000 by default.  
 Once t_view is initialized, the main function makes a call to draw_points(), which exists in draw.c, and finally the main function calls keyboard_event_function via mlx_hook. mlx_hook was a provided function for this project, as was mlx_loop.   
-<img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/keyboard_event_function.png" 
-alt="keyboard_event_function" width="350" height="450" border="10"/>  
-In keyboard_event()
+<img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/keyboard_event.png" 
+alt="keyboard_event" width="350" height="450" border="10"/>  
+In keyboard_event() a switch adds or subtracts pi/96 (an arbitrary quantity of radians) from the x, y, or z angle (or exits, or resets the window), clears the screen, and makes a call to create_image():  
+<img src="https://github.com/robertnowell/3d_wireframe/blob/master/images/create_image.png" 
+alt="keyboard_event" width="400" height="200" border="10"/>  
 
 ## Installation
 
