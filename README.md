@@ -68,4 +68,4 @@ Robert Nowell
 
 ## Acknowledgement
 
-This project was completed at School 42, Fremont.
+This project was completed at School 42 in Fremont, California.
