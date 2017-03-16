@@ -19,7 +19,7 @@ alt="fdf" width="300" height="140" border="10"/>
 6. In response to each user input, copies the "mesh" and alters each vector based on the x, y, and z rotation angles input by the user and then projects these points into a new "points" array.
 7. Outputs the image to the screen and then calls to the keyboard event function again.
 
-The program operates in an infinite loop until an escape key (ESC) is received.  
+The program operates in an infinite loop until an escape key (esc) is received.  
 
 ### Details and Code
 
