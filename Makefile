@@ -11,7 +11,7 @@ LIB			= -L./libraries -lft -lmlx
 FRAMEWORK 	= -framework OpenGL -framework Appkit
 
 OBJS 		= $(SRCS:.c=.o)
-
+ 
 CC 			= gcc
 
 all: $(NAME); @echo "successfully created executable 'wireframe'"
